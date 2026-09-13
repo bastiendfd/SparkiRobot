@@ -1,0 +1,2 @@
+# Keep Arduino source line endings stable across development hosts.
+*.ino text eol=lf

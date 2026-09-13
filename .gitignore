@@ -1,0 +1,36 @@
+# Arduino IDE and CLI build output
+build/
+*.elf
+*.hex
+*.eep
+*.bin
+*.map
+*.lst
+*.o
+*.d
+
+# Arduino editor/IDE metadata and temporary files
+*.ino.cpp
+*.ino.cpp.*
+*.tmp
+*.temp
+*~
+
+# Python test artifacts
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.coverage
+
+# OS/editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Local environment files and secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key

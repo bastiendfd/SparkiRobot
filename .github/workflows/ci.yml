@@ -1,0 +1,39 @@
+name: Static safety checks
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  static-safety:
+    name: Static safety and source checks (no hardware)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Run offline safety contract tests
+        run: python -m unittest discover -s tests -v
+
+      - name: Check whitespace errors
+        run: git diff --check HEAD^ HEAD || test "$(git rev-list --count HEAD)" -eq 1
+
+      - name: Scan tracked source for likely committed secrets
+        shell: bash
+        run: |
+          ! git grep -n -I -E '(api[_-]?key|secret|password|passwd|token)[[:space:]]*[:=][[:space:]]*["'"''][^"'"'']{6,}' -- . ':!SECURITY.md'
+
+      - name: State CI limit
+        run: |
+          echo 'This workflow performs static source checks only.'
+          echo 'It does not install a Sparki library, compile firmware, upload firmware, or verify hardware behavior.'

@@ -1,29 +1,28 @@
-#include <sparki.h> //include Sparki library
-void setup(){
+#include <sparki.h>
+
+// SAFETY CONTRACT: this default lesson is deliberately LED-only.
+// SAFE_IDLE_LED_ONLY: no motor or movement API is called by this sketch.
+// It is safe to upload only after following README.md's hardware checklist.
+
+const unsigned long STEP_DELAY_MS = 500;
+
+void showColor(int red, int green, int blue) {
+  sparki.RGB(red, green, blue);
+  delay(STEP_DELAY_MS);
 }
- 
-void loop()
-{
 
-  sparki.RGB(100,0,0); // Make the LED maximum Red
-  delay(500); // wait 0.5 seconds (500 milliseconds)
+void setup() {
+  // Make the safe idle state explicit before the repeating LED lesson begins.
+  sparki.RGB(RGB_OFF);
+}
 
-  sparki.RGB(0,100,0); // Make the LED maximum Green
-  delay(500);
-
-  sparki.RGB(0,0,100); // Make the LED maximum Blue
-  delay(500);
-
-  sparki.RGB(RGB_WHITE); // Make the LED white (all colors)
-  delay(500);
-
-  sparki.RGB(RGB_OFF); // Make the LED white (all colors)
-  delay(500);
-  sparki.moveForward();
-  delay(3000);
-  sparki.moveBackward();
-  delay(3000);
-  sparki.moveRight(15);
-  sparki.moveStop();
-  delay(1000);
+void loop() {
+  // A visible, stationary RGB exercise for learning the Sparki LED API.
+  showColor(100, 0, 0);
+  showColor(0, 100, 0);
+  showColor(0, 0, 100);
+  sparki.RGB(RGB_WHITE);
+  delay(STEP_DELAY_MS);
+  sparki.RGB(RGB_OFF);
+  delay(STEP_DELAY_MS);
 }
